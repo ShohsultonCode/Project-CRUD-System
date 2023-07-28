@@ -260,6 +260,25 @@ const filterBlogs = async (req, res) => {
 };
 
 
+const myBlogs = async (req, res) => {
+    try {
+        const { id } = req.user; // Assuming req.user contains the authenticated user's information
+
+        // Find blogs belonging to the specified user
+        const userBlogs = await Blog.find({ blog_user: id, blog_isactive: true })
+            .populate({
+                path: 'blog_user',
+                select: 'user_first_name user_last_name',
+            })
+            .exec();
+
+        res.status(200).json(userBlogs);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch user blogs' });
+    }
+};
+
+
 module.exports = {
     getAllUsers,
     getUser,
@@ -269,5 +288,6 @@ module.exports = {
     getBlog,
     updateblog,
     deleteblog,
-    filterBlogs
+    filterBlogs,
+    myBlogs
 }

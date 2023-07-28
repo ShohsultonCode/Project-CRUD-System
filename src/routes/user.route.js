@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { getAllUsers, getUser, deleteUser, createBlog, getAllBlogs, getBlog, updateblog, deleteblog, filterBlogs } = require("../controllers/client/user.controller")
+const { getAllUsers, getUser, deleteUser, createBlog, getAllBlogs, getBlog, updateblog, deleteblog, filterBlogs, myBlogs } = require("../controllers/client/user.controller")
 const { verif_Token } = require("../guards/isAuth.middleware")
 const { checkRole } = require("../guards/checkRole.middleware")
 const router = Router();
@@ -21,6 +21,7 @@ router.post("/create/blog", verif_Token, createBlog)
 router.put("/update/blog/:id", verif_Token, checkRole(['admin', 'user']), updateblog)
 router.delete("/delete/blog/:id", verif_Token, checkRole(['admin', 'user']), deleteblog)
 router.post("/filter/blogs", verif_Token, filterBlogs)
+router.get("/myblogs", verif_Token, myBlogs)
 
 
 
