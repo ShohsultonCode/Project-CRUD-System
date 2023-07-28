@@ -13,7 +13,20 @@ const userLoginValidator = Joi.object({
 
 
 
+const blogValidator = Joi.object({
+    blog_title: Joi.string().min(5).max(35).required(),
+    blog_content: Joi.string().min(5).max(555).required(),
+});
+
+const blogUpdateValidator = Joi.object({
+    blog_title: Joi.string().min(5).max(35),
+    blog_content: Joi.string().min(5).max(555)
+});
+
+
 module.exports = {
     userPostValidator,
-    userLoginValidator
+    userLoginValidator,
+    blogValidator,
+    blogUpdateValidator
 }

@@ -27,15 +27,16 @@ const singup = async (req, res) => {
         const hashPassword = await bcrypt.hash(user_password, 10)
 
         const newUser = await new User({
-            user_first_name: user_first_name,
-            user_last_name: user_last_name,
+            user_first_name: user_first_name.toLowerCase().trim(),
+            user_last_name: user_last_name.toLowerCase().trim(),
             user_username: user_username.toLowerCase().trim(),
             user_password: hashPassword,
+            user_role: "user"
         })
 
         await newUser.save()
 
-        const { accessToken } = await generateTokens(newUser);
+        const accessToken = await generateTokens(newUser);
 
         // Omit user_role and user_password from the response
         res.status(201).json({
@@ -45,6 +46,7 @@ const singup = async (req, res) => {
         });
 
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: "Server Error", statusCode: 500 });
     }
 }
@@ -93,8 +95,8 @@ const updateProfile = async (req, res) => {
         const user = await User.findById(userId);
         if (!user) return res.status(404).json({ message: "User not found" });
 
-        user.user_first_name = user_first_name || user.user_first_name;
-        user.user_last_name = user_last_name || user.user_last_name;
+        user.user_first_name = user_first_name?.toLowerCase().trim() || user.user_first_name;
+        user.user_last_name = user_last_name?.toLowerCase().trim() || user.user_last_name;
         user.user_username = user_username?.toLowerCase() || user.user_username;
 
         if (req.files?.user_image) {

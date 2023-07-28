@@ -27,6 +27,13 @@ const usersModel = new Schema({
     required: true,
     default: 'user.png',
   },
+  user_role: {
+    //Enum for user_role "user", "admin", "provider"
+    type: String,
+    required: true,
+    enum: ['user', 'admin'],
+  },
+
   user_isactive: {
     type: Boolean,
     required: true,
