@@ -18,6 +18,7 @@ const getUser = async (req, res) => {
         return res.status(400).json({ message: "id not found", statusCode: 400 });
     }
 
+    //User exists
     const user = await User.findById(id)
 
     if (user.user_isactive === false || !user) {
@@ -31,7 +32,7 @@ const getUser = async (req, res) => {
 
 
 
-
+//Module exports
 module.exports = {
     getAllUsers,
     getUser
